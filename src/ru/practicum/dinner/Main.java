@@ -47,8 +47,12 @@ public class Main {
         dinnerConstructor.addDish(dishType, dishName);
     }
 
-    private static void addDishTypeForCombo(String dishType, ArrayList<String> dishTypes, DinnerConstructor dc) {
-        if (!dc.isTypeExists(dishType)) {
+    private static void addDishTypeForCombo(String dishType, ArrayList<String> dishTypes) {
+        if (dishType.equals(System.lineSeparator())) {
+            return;
+        }
+
+        if (!dinnerConstructor.isDishTypeExists(dishType)) {
             System.out.println("Вы ввели несуществующий тип блюда. Пожалуйста, повторите ввод");
         } else {
             dishTypes.add(dishType);
@@ -58,25 +62,36 @@ public class Main {
     private static void generateDishCombo() {
         if (dinnerConstructor.dishesListIsEmpty()) {
             System.out.println("Список блюд пуст. Сначала нужно его наполнить");
+            System.out.println();
             return;
         }
 
         System.out.println("Начинаем конструировать обед...");
-        System.out.println("Введите количество наборов, которые нужно сгенерировать:");
+        System.out.println("Введите количество наборов, которые нужно сгенерировать (0 для возврата в меню):");
         int numberOfCombos = scanner.nextInt();
         scanner.nextLine();
+        if (numberOfCombos == 0) {
+            return;
+        }
 
-        System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). Для завершения ввода введите пустую строку");
+        System.out.println("Вводите типы блюда, разделяя символом переноса строки (enter). " +
+                "Для завершения ввода введите пустую строку");
         String nextItem = scanner.nextLine();
         ArrayList<String> dishTypes = new ArrayList<>();
-        addDishTypeForCombo (nextItem, dishTypes, dinnerConstructor);
+        addDishTypeForCombo(nextItem, dishTypes);
 
         //реализуйте ввод типов блюд
         while (!nextItem.isEmpty()) {
             nextItem = scanner.nextLine();
+            addDishTypeForCombo(nextItem, dishTypes);
         }
 
-        // сгенерируйте комбинации блюд и выведите на экран
-
+        int combosCounter = 1;
+        for (ArrayList<String> combo: dinnerConstructor.generateCombos(numberOfCombos, dishTypes)) {
+            System.out.println("Комбо " + combosCounter);
+            System.out.println(combo);
+            combosCounter++;
+        }
     }
+
 }
