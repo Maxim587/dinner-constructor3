@@ -48,7 +48,8 @@ public class Main {
     }
 
     private static void addDishTypeForCombo(String dishType, ArrayList<String> dishTypes) {
-        if (dishType.equals(System.lineSeparator())) {
+        //if (dishType.equals(System.lineSeparator())) {
+        if (dishType.isEmpty()) {
             return;
         }
 
