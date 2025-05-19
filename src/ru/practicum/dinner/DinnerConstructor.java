@@ -7,7 +7,7 @@ import java.util.Random;
 public class DinnerConstructor {
 
     HashMap<String, ArrayList<String>> dishes = new HashMap<>();
-    Random random = new Random(); //move to main???
+    Random random = new Random();
 
     void addDish(String dishType, String dishName) {
         if (dishes.containsKey(dishType)) {
