@@ -2,14 +2,19 @@ package ru.practicum.dinner;
 
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.Random;
 
 public class Main {
 
     static DinnerConstructor dinnerConstructor;
     static Scanner scanner;
+    static Random random;
+    static DishesList dishesList;
 
     public static void main(String[] args) {
-        dinnerConstructor = new DinnerConstructor();
+        dishesList = new DishesList();
+        random = new Random();
+        dinnerConstructor = new DinnerConstructor(dishesList, random);
         scanner = new Scanner(System.in);
 
         while (true) {
@@ -41,26 +46,11 @@ public class Main {
         String dishType = scanner.nextLine();
         System.out.println("Введите название блюда:");
         String dishName = scanner.nextLine();
-
-        // добавьте новое блюдо
-        dinnerConstructor.addDish(dishType, dishName);
-    }
-
-    private static void addDishTypeForCombo(String dishType, ArrayList<String> dishTypes) {
-        //if (dishType.equals(System.lineSeparator())) {
-        if (dishType.isEmpty()) {
-            return;
-        }
-
-        if (!dinnerConstructor.isDishTypeExists(dishType)) {
-            System.out.println("Вы ввели несуществующий тип блюда. Пожалуйста, повторите ввод");
-        } else {
-            dishTypes.add(dishType);
-        }
+        dishesList.addDish(dishType, dishName);
     }
 
     private static void generateDishCombo() {
-        if (dinnerConstructor.dishesListIsEmpty()) {
+        if (dishesList.dishesListIsEmpty()) {
             System.out.println("Список блюд пуст. Сначала нужно его наполнить");
             System.out.println();
             return;
@@ -80,18 +70,29 @@ public class Main {
         ArrayList<String> dishTypes = new ArrayList<>();
         addDishTypeForCombo(nextItem, dishTypes);
 
-        //реализуйте ввод типов блюд
         while (!nextItem.isEmpty()) {
             nextItem = scanner.nextLine();
             addDishTypeForCombo(nextItem, dishTypes);
         }
 
         int combosCounter = 1;
-        for (ArrayList<String> combo: dinnerConstructor.generateCombos(numberOfCombos, dishTypes)) {
+        for (ArrayList<String> combo : dinnerConstructor.generateCombos(numberOfCombos, dishTypes)) {
             System.out.println("Комбо " + combosCounter);
             System.out.println(combo);
             combosCounter++;
         }
+        System.out.println();
     }
 
+    private static void addDishTypeForCombo(String dishType, ArrayList<String> dishTypes) {
+        if (dishType.isEmpty()) {
+            return;
+        }
+
+        if (!dishesList.isDishTypeExists(dishType)) {
+            System.out.println("Вы ввели несуществующий тип блюда. Пожалуйста, повторите ввод");
+        } else {
+            dishTypes.add(dishType);
+        }
+    }
 }
