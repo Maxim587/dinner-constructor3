@@ -6,16 +6,11 @@ import java.util.HashMap;
 class DishesList {
 
     HashMap<String, ArrayList<String>> dishes = new HashMap<>();
-    ArrayList<String> dishesNames;
 
     void addDish(String dishType, String dishName) {
-        if (dishes.containsKey(dishType)) {
-            dishes.get(dishType).add(dishName);
-        } else {
-            dishesNames = new ArrayList<>();
-            dishesNames.add(dishName);
-            dishes.put(dishType, dishesNames);
-        }
+        dishes.computeIfAbsent(dishType,type -> new ArrayList<>()).add(dishName);
+        //Георгий, привет! Спасибо за интересную подсказку. Сделал через IfAbsent
+        //dishes.compute(dishType, (type, names) -> (names == null) ? new ArrayList<>() : names).add(dishName);
     }
 
     ArrayList<String> getDishList(String dishType) {

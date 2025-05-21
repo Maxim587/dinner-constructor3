@@ -30,6 +30,8 @@ public class Main {
                     break;
                 case "3":
                     return;
+                default:
+                    System.out.println("Такой команды нет. Пожалуйста, повторите ввод");
             }
         }
     }
