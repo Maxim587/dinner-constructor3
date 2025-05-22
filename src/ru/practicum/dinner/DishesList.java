@@ -9,9 +9,8 @@ class DishesList {
 
     void addDish(String dishType, String dishName) {
         dishes.computeIfAbsent(dishType,type -> new ArrayList<>()).add(dishName);
-        //Георгий, привет! Спасибо за интересную подсказку. Сделал через IfAbsent
-        //dishes.compute(dishType, (type, names) -> (names == null) ? new ArrayList<>() : names).add(dishName);
-    }
+        //Георгий, привет! Спасибо за интересную подсказку. Сделал через IfAbsent. Был также вариант с простым compute
+        }
 
     ArrayList<String> getDishList(String dishType) {
         return dishes.get(dishType);
